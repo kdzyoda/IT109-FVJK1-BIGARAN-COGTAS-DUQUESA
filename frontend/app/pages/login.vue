@@ -24,27 +24,46 @@ async function submit() {
 
 <template>
   <main class="min-h-screen grid place-items-center bg-maroon p-4">
-    <form @submit.prevent="submit" class="w-full max-w-md rounded-2xl bg-crimson p-8 text-white shadow-xl space-y-4">
-      <h1 class="brand text-3xl text-amber">PaddlerGo</h1>
-      <h2 class="hero text-2xl">Welcome back</h2>
-      <p class="promo text-amber/90">Order, paddle, enjoy.</p>
-
-      <div>
-        <label class="nav text-sm">Username</label>
-        <input v-model="username" class="input text-black" autocomplete="username" />
-        <p v-if="errors.username" class="error">{{ errors.username }}</p>
+    <div class="grid w-full max-w-4xl overflow-hidden rounded-3xl bg-cream shadow-2xl md:grid-cols-2">
+      <!-- Brand side -->
+      <div class="relative flex flex-col justify-between bg-crimson p-10 text-white">
+        <div class="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-amber/30 blur-2xl"></div>
+        <NuxtLink to="/" class="brand relative text-3xl text-amber">PaddlerGo</NuxtLink>
+        <div class="relative mt-16 space-y-3">
+          <h1 class="hero text-4xl leading-tight">Hungry? Log in and order.</h1>
+          <p class="promo text-lg text-amber">Freshly made, just for you</p>
+        </div>
+        <p class="relative mt-16 text-sm text-white/70">Food ordering for the campus</p>
       </div>
-      <div>
-        <label class="nav text-sm">Password</label>
-        <input v-model="password" type="password" class="input text-black" autocomplete="current-password" />
-        <p v-if="errors.password" class="error">{{ errors.password }}</p>
-      </div>
-      <p v-if="errors.form" class="error">{{ errors.form }}</p>
 
-      <button class="btn" :disabled="loading">{{ loading ? 'Logging in...' : 'Log in' }}</button>
-      <p class="text-sm text-center">
-        No account? <NuxtLink to="/register" class="nav text-amber underline">Register</NuxtLink>
-      </p>
-    </form>
+      <!-- Form side -->
+      <form class="space-y-5 p-10" @submit.prevent="submit">
+        <div>
+          <h2 class="section text-3xl text-maroon">Welcome back</h2>
+          <p class="mt-1 text-sm text-gray-600">Log in to place and track your orders.</p>
+        </div>
+
+        <div>
+          <label class="nav text-sm text-maroon">Username</label>
+          <input v-model="username" class="input mt-1" autocomplete="username" />
+          <p v-if="errors.username" class="mt-1 text-sm text-red-700">{{ errors.username }}</p>
+        </div>
+
+        <div>
+          <label class="nav text-sm text-maroon">Password</label>
+          <input v-model="password" type="password" class="input mt-1" autocomplete="current-password" />
+          <p v-if="errors.password" class="mt-1 text-sm text-red-700">{{ errors.password }}</p>
+        </div>
+
+        <p v-if="errors.form" class="rounded-lg bg-red-100 px-3 py-2 text-sm text-red-700">{{ errors.form }}</p>
+
+        <button class="btn" :disabled="loading">{{ loading ? 'Logging in...' : 'Log in' }}</button>
+
+        <p class="text-center text-sm text-gray-700">
+          No account?
+          <NuxtLink to="/register" class="nav text-crimson underline">Register</NuxtLink>
+        </p>
+      </form>
+    </div>
   </main>
 </template>

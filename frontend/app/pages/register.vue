@@ -10,10 +10,10 @@ const passwordRe = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const fields = [
-  { key: 'username', label: 'Username', type: 'text' },
-  { key: 'email', label: 'Email', type: 'email' },
-  { key: 'password', label: 'Password', type: 'password' },
-  { key: 'password_confirmation', label: 'Confirm password', type: 'password' }
+  { key: 'username', label: 'Username', type: 'text', hint: '4-20 letters, numbers or underscores' },
+  { key: 'email', label: 'Email', type: 'email', hint: '' },
+  { key: 'password', label: 'Password', type: 'password', hint: '8+ characters with upper, lower, number and symbol' },
+  { key: 'password_confirmation', label: 'Confirm password', type: 'password', hint: '' }
 ]
 
 function validate() {
@@ -43,23 +43,44 @@ async function submit() {
 
 <template>
   <main class="min-h-screen grid place-items-center bg-maroon p-4">
-    <form @submit.prevent="submit" class="w-full max-w-md rounded-2xl bg-crimson p-8 text-white shadow-xl space-y-4">
-      <h1 class="brand text-3xl text-amber">PaddlerGo</h1>
-      <h2 class="hero text-2xl">Create your account</h2>
-
-      <div v-for="f in fields" :key="f.key">
-        <label class="nav text-sm">{{ f.label }}</label>
-        <input v-model="(form as any)[f.key]" :type="f.type" class="input text-black" />
-        <p v-if="errors[f.key]" class="error">{{ errors[f.key] }}</p>
+    <div class="grid w-full max-w-4xl overflow-hidden rounded-3xl bg-cream shadow-2xl md:grid-cols-2">
+      <!-- Brand side -->
+      <div class="relative flex flex-col justify-between bg-crimson p-10 text-white">
+        <div class="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-amber/30 blur-2xl"></div>
+        <NuxtLink to="/" class="brand relative text-3xl text-amber">PaddlerGo</NuxtLink>
+        <div class="relative mt-16 space-y-3">
+          <h1 class="hero text-4xl leading-tight">Create your account and start ordering.</h1>
+          <p class="promo text-lg text-amber">Order in minutes</p>
+        </div>
+        <p class="relative mt-16 text-sm text-white/70">Food ordering for the campus</p>
       </div>
 
-      <p v-if="errors.form" class="error">{{ errors.form }}</p>
-      <p v-if="success" class="text-amber nav">Account created! Redirecting to login...</p>
+      <!-- Form side -->
+      <form class="space-y-4 p-10" @submit.prevent="submit">
+        <div>
+          <h2 class="section text-3xl text-maroon">Create account</h2>
+          <p class="mt-1 text-sm text-gray-600">It only takes a minute.</p>
+        </div>
 
-      <button class="btn" :disabled="loading">{{ loading ? 'Creating...' : 'Register' }}</button>
-      <p class="text-sm text-center">
-        Already registered? <NuxtLink to="/login" class="nav text-amber underline">Log in</NuxtLink>
-      </p>
-    </form>
+        <div v-for="f in fields" :key="f.key">
+          <label class="nav text-sm text-maroon">{{ f.label }}</label>
+          <input v-model="(form as any)[f.key]" :type="f.type" class="input mt-1" />
+          <p v-if="errors[f.key]" class="mt-1 text-sm text-red-700">{{ errors[f.key] }}</p>
+          <p v-else-if="f.hint" class="mt-1 text-xs text-gray-500">{{ f.hint }}</p>
+        </div>
+
+        <p v-if="errors.form" class="rounded-lg bg-red-100 px-3 py-2 text-sm text-red-700">{{ errors.form }}</p>
+        <p v-if="success" class="nav rounded-lg bg-green-100 px-3 py-2 text-sm text-green-800">
+          Account created! Redirecting to login...
+        </p>
+
+        <button class="btn" :disabled="loading">{{ loading ? 'Creating...' : 'Register' }}</button>
+
+        <p class="text-center text-sm text-gray-700">
+          Already registered?
+          <NuxtLink to="/login" class="nav text-crimson underline">Log in</NuxtLink>
+        </p>
+      </form>
+    </div>
   </main>
 </template>
