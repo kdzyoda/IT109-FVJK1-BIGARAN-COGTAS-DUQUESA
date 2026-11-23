@@ -12,15 +12,15 @@ if (!user.value) await navigateTo('/login')
 
       <section v-if="user.role === 'admin'" class="rounded-xl bg-white p-5">
         <h2 class="section text-xl">Admin panel</h2>
-        <p>Manage users and system settings.</p>
+        <p>Manage the menu, prices, staff accounts and all orders.</p>
       </section>
       <section v-else-if="user.role === 'staff'" class="rounded-xl bg-white p-5">
         <h2 class="section text-xl">Staff panel</h2>
-        <p>View and manage orders.</p>
+        <p>View incoming orders and update their status.</p>
       </section>
       <section v-else class="rounded-xl bg-white p-5">
-        <h2 class="section text-xl">Student panel</h2>
-        <p>Browse and book your rides.</p>
+        <h2 class="section text-xl">Customer panel</h2>
+        <p>Browse the menu, place an order and track your orders.</p>
       </section>
     </main>
   </div>

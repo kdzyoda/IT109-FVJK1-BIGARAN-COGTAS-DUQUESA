@@ -7,7 +7,7 @@ export const useAuth = () => {
 
   async function login(username: string, password: string) {
     if (USE_MOCK) {
-      const role = username.startsWith('admin') ? 'admin' : username.startsWith('staff') ? 'staff' : 'student'
+      const role = username.startsWith('admin') ? 'admin' : username.startsWith('staff') ? 'staff' : 'customer'
       user.value = { id: 1, username, role }
       token.value = 'mock-token'
       return
