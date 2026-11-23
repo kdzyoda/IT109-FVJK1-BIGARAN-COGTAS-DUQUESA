@@ -1,0 +1,20 @@
+# Secrets
+.env
+backend/.env
+frontend/.env
+
+# Dependencies
+node_modules/
+backend/vendor/
+
+# Build / cache
+.nuxt/
+.output/
+dist/
+backend/storage/*.key
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
