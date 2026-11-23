@@ -1,22 +1,11 @@
 <script setup lang="ts">
-const { user, logout } = useAuth()
+const { user } = useAuth()
 if (!user.value) await navigateTo('/login')
-
-async function doLogout() {
-  await logout()
-  await navigateTo('/login')
-}
 </script>
 
 <template>
   <div v-if="user" class="min-h-screen">
-    <header class="bg-maroon text-white flex items-center justify-between px-6 py-4">
-      <span class="brand text-2xl text-amber">PaddlerGo</span>
-      <nav class="flex items-center gap-6 nav">
-        <span>{{ user.username }} ({{ user.role }})</span>
-        <button @click="doLogout" class="text-amber underline">Logout</button>
-      </nav>
-    </header>
+    <AppNavbar />
 
     <main class="p-6 space-y-4">
       <h1 class="hero text-3xl text-maroon">Welcome, {{ user.username }}</h1>
