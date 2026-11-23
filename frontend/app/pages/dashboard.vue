@@ -1,13 +1,8 @@
 <script setup lang="ts">
-const { user, logout } = useAuth()
+const { user } = useAuth()
 const { count, total } = useCart()
 
 if (!user.value) await navigateTo('/login')
-
-async function doLogout() {
-  await logout()
-  await navigateTo('/login')
-}
 
 // TEMP SAMPLE DATA: replace with real API data when Laravel is ready
 const adminStats = [
@@ -33,25 +28,13 @@ const roleLabel = computed(() => {
 
 <template>
   <div v-if="user" class="min-h-screen">
-    <!-- Header -->
-    <header class="bg-maroon text-white">
-      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
-        <NuxtLink to="/" class="brand text-2xl text-amber">PaddlerGo</NuxtLink>
-        <nav class="nav flex items-center gap-3 text-sm sm:gap-5">
-          <NuxtLink to="/" class="hover:text-amber">Home</NuxtLink>
-          <NuxtLink to="/menu" class="hover:text-amber">Menu</NuxtLink>
-          <button class="rounded-lg border border-amber/60 px-3 py-1.5 text-amber hover:bg-amber hover:text-maroon" @click="doLogout">
-            Logout
-          </button>
-        </nav>
-      </div>
-    </header>
+    <AppNavbar />
 
     <!-- Welcome banner -->
     <section class="bg-crimson text-white">
       <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
         <span class="nav inline-block rounded-full bg-amber px-3 py-1 text-xs text-maroon">{{ roleLabel }}</span>
-        <h1 class="hero mt-3 wrap-break-words text-3xl sm:text-4xl">Welcome, {{ user.username }}</h1>
+        <h1 class="hero mt-3 wrap-break-word text-3xl sm:text-4xl">Welcome, {{ user.username }}</h1>
         <p class="promo mt-1 text-lg text-amber">
           {{ user.role === 'admin' ? 'Keep everything running smoothly' : user.role === 'staff' ? 'Orders are waiting' : 'What are you craving today?' }}
         </p>

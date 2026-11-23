@@ -9,24 +9,35 @@ async function doLogout() {
 </script>
 
 <template>
-  <header class="bg-maroon text-white flex items-center justify-between px-6 py-4">
-    <NuxtLink to="/" class="brand text-2xl text-amber">PaddlerGo</NuxtLink>
-    <nav class="flex items-center gap-6 nav">
-      <NuxtLink to="/menu">
-        Menu
-        <span v-if="count > 0" class="ml-1 rounded-full bg-amber px-2 py-0.5 text-xs text-maroon">
-          {{ count }}
-        </span>
-      </NuxtLink>
-      <template v-if="user">
-        <NuxtLink to="/dashboard">Dashboard</NuxtLink>
-        <span class="text-white/70">{{ user.username }} ({{ user.role }})</span>
-        <button class="text-amber underline" @click="doLogout">Logout</button>
-      </template>
-      <template v-else>
-        <NuxtLink to="/login">Log in</NuxtLink>
-        <NuxtLink to="/register" class="rounded-lg bg-amber px-4 py-2 text-maroon">Register</NuxtLink>
-      </template>
-    </nav>
+  <header class="bg-maroon text-white">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
+      <NuxtLink to="/" class="brand text-2xl text-amber sm:text-3xl">PaddlerGo</NuxtLink>
+
+      <nav class="nav flex flex-wrap items-center gap-3 text-sm sm:gap-5 sm:text-base">
+        <NuxtLink to="/" class="hover:text-amber" active-class="text-amber" exact-active-class="text-amber">Home</NuxtLink>
+
+        <NuxtLink to="/menu" class="flex items-center gap-1.5 hover:text-amber" active-class="text-amber">
+          Menu
+          <span v-if="count" class="grid h-5 min-w-5 place-items-center rounded-full bg-amber px-1 text-xs text-maroon">
+            {{ count }}
+          </span>
+        </NuxtLink>
+
+        <template v-if="user">
+          <NuxtLink to="/dashboard" class="hover:text-amber" active-class="text-amber">Dashboard</NuxtLink>
+          <button
+            class="rounded-lg border border-amber/60 px-3 py-1.5 text-amber hover:bg-amber hover:text-maroon"
+            @click="doLogout"
+          >
+            Logout
+          </button>
+        </template>
+
+        <template v-else>
+          <NuxtLink to="/login" class="hover:text-amber">Log in</NuxtLink>
+          <NuxtLink to="/register" class="rounded-lg bg-amber px-3 py-1.5 text-maroon hover:brightness-105">Register</NuxtLink>
+        </template>
+      </nav>
+    </div>
   </header>
 </template>
