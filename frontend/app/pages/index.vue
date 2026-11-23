@@ -81,11 +81,11 @@ function orderNow() {
       <div class="pointer-events-none absolute inset-y-0 left-0 hidden w-[42%] bg-black/15 lg:block"
            style="clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%)"></div>
 
-      <div class="relative mx-auto grid max-w-6xl gap-10 px-6 py-12 lg:grid-cols-[1fr_1.1fr_1fr] lg:items-center">
+      <div class="relative mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[1fr_1.1fr_1fr] lg:items-center lg:gap-10">
         <!-- Left: dish details -->
         <div class="space-y-4">
           <p class="nav text-xs text-white/60">Home / Menu / {{ dish.category }}</p>
-          <h1 class="hero text-4xl leading-tight md:text-5xl">{{ dish.name }}</h1>
+          <h1 class="hero text-3xl leading-tight sm:text-4xl md:text-5xl">{{ dish.name }}</h1>
           <p class="max-w-sm text-sm text-white/80">{{ dish.desc }}</p>
 
           <p class="price text-2xl text-amber">₱{{ unitPrice }}</p>
@@ -109,10 +109,10 @@ function orderNow() {
         </div>
 
         <!-- Center: round dish -->
-        <div class="flex flex-col items-center gap-5">
+        <div class="order-first flex flex-col items-center gap-5 lg:order-none">
           <div class="relative">
             <div class="absolute -inset-3 rounded-full bg-amber/40 blur-xl"></div>
-            <div class="relative h-64 w-64 overflow-hidden rounded-full border-8 border-amber/80 bg-crimson shadow-2xl md:h-80 md:w-80">
+            <div class="relative h-56 w-56 overflow-hidden rounded-full border-8 border-amber/80 bg-crimson shadow-2xl sm:h-64 sm:w-64 md:h-80 md:w-80">
               <img
                 v-if="!imageFailed[current]"
                 :src="dish.image" :alt="dish.name"
@@ -161,7 +161,7 @@ function orderNow() {
     </section>
 
     <!-- Reviews strip -->
-    <section class="bg-amber px-6 py-12">
+    <section class="bg-amber px-4 py-10 sm:px-6 sm:py-12">
       <div class="mx-auto max-w-6xl">
         <h2 class="brand text-center text-3xl tracking-widest text-maroon">REVIEWS</h2>
         <div class="mt-8 grid gap-5 md:grid-cols-3">

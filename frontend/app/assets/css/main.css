@@ -32,3 +32,8 @@ body { font-family: var(--font-body); background: var(--color-cream); color: #2a
 }
 .input:focus { outline: 2px solid var(--color-amber); }
 .error { color: #ffd2d2; font-size: .85rem; margin-top: .25rem; }
+
+html, body { max-width: 100%; overflow-x: hidden; }
+img { max-width: 100%; }
+/* 16px stops iPhones from zooming in when you tap a field */
+.input { font-size: 16px; }

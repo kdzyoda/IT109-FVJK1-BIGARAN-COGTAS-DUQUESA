@@ -42,29 +42,39 @@ async function submit() {
 </script>
 
 <template>
-  <main class="min-h-screen grid place-items-center bg-maroon p-4">
+  <main class="grid min-h-screen place-items-center bg-maroon p-3 sm:p-4">
     <div class="grid w-full max-w-4xl overflow-hidden rounded-3xl bg-cream shadow-2xl md:grid-cols-2">
       <!-- Brand side -->
-      <div class="relative flex flex-col justify-between bg-crimson p-10 text-white">
+      <div class="relative flex flex-col justify-between overflow-hidden bg-crimson p-6 text-white sm:p-10">
         <div class="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-amber/30 blur-2xl"></div>
         <NuxtLink to="/" class="brand relative text-3xl text-amber">PaddlerGo</NuxtLink>
-        <div class="relative mt-16 space-y-3">
-          <h1 class="hero text-4xl leading-tight">Create your account and start ordering.</h1>
-          <p class="promo text-lg text-amber">Order in minutes</p>
+        <div class="relative mt-6 space-y-3 md:mt-16">
+          <h1 class="hero text-2xl leading-tight sm:text-4xl">Create your account and start ordering.</h1>
+          <p class="promo text-base text-amber sm:text-lg">Order in minutes</p>
         </div>
-        <p class="relative mt-16 text-sm text-white/70">Food ordering for the campus</p>
+        <p class="relative mt-6 hidden text-sm text-white/70 md:mt-16 md:block">Food ordering for the campus</p>
       </div>
 
       <!-- Form side -->
-      <form class="space-y-4 p-10" @submit.prevent="submit">
+      <form class="space-y-4 p-6 sm:p-10" @submit.prevent="submit">
         <div>
-          <h2 class="section text-3xl text-maroon">Create account</h2>
+          <h2 class="section text-2xl text-maroon sm:text-3xl">Create account</h2>
           <p class="mt-1 text-sm text-gray-600">It only takes a minute.</p>
         </div>
 
         <div v-for="f in fields" :key="f.key">
           <label class="nav text-sm text-maroon">{{ f.label }}</label>
-          <input v-model="(form as any)[f.key]" :type="f.type" class="input mt-1" />
+          <PasswordInput
+            v-if="f.type === 'password'"
+            v-model="(form as any)[f.key]"
+            autocomplete="new-password"
+          />
+          <input
+            v-else
+            v-model="(form as any)[f.key]"
+            :type="f.type"
+            class="input mt-1"
+          />
           <p v-if="errors[f.key]" class="mt-1 text-sm text-red-700">{{ errors[f.key] }}</p>
           <p v-else-if="f.hint" class="mt-1 text-xs text-gray-500">{{ f.hint }}</p>
         </div>

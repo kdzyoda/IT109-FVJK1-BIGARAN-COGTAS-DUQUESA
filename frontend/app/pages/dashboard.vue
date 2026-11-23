@@ -35,9 +35,9 @@ const roleLabel = computed(() => {
   <div v-if="user" class="min-h-screen">
     <!-- Header -->
     <header class="bg-maroon text-white">
-      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
         <NuxtLink to="/" class="brand text-2xl text-amber">PaddlerGo</NuxtLink>
-        <nav class="nav flex items-center gap-5 text-sm">
+        <nav class="nav flex items-center gap-3 text-sm sm:gap-5">
           <NuxtLink to="/" class="hover:text-amber">Home</NuxtLink>
           <NuxtLink to="/menu" class="hover:text-amber">Menu</NuxtLink>
           <button class="rounded-lg border border-amber/60 px-3 py-1.5 text-amber hover:bg-amber hover:text-maroon" @click="doLogout">
@@ -49,16 +49,16 @@ const roleLabel = computed(() => {
 
     <!-- Welcome banner -->
     <section class="bg-crimson text-white">
-      <div class="mx-auto max-w-6xl px-6 py-10">
+      <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
         <span class="nav inline-block rounded-full bg-amber px-3 py-1 text-xs text-maroon">{{ roleLabel }}</span>
-        <h1 class="hero mt-3 text-4xl">Welcome, {{ user.username }}</h1>
+        <h1 class="hero mt-3 break-words text-3xl sm:text-4xl">Welcome, {{ user.username }}</h1>
         <p class="promo mt-1 text-lg text-amber">
           {{ user.role === 'admin' ? 'Keep everything running smoothly' : user.role === 'staff' ? 'Orders are waiting' : 'What are you craving today?' }}
         </p>
       </div>
     </section>
 
-    <main class="mx-auto max-w-6xl space-y-6 px-6 py-8">
+    <main class="mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-6">
       <!-- ADMIN -->
       <template v-if="user.role === 'admin'">
         <div class="grid gap-4 md:grid-cols-3">
@@ -84,13 +84,13 @@ const roleLabel = computed(() => {
           <h2 class="section text-xl text-maroon">Staff panel</h2>
           <p class="mt-1 text-sm text-gray-600">View and manage orders.</p>
           <ul class="mt-4 divide-y divide-amber/40">
-            <li v-for="o in staffOrders" :key="o.id" class="flex items-center justify-between py-3">
+            <li v-for="o in staffOrders" :key="o.id" class="flex items-center justify-between gap-3 py-3">
               <div>
                 <p class="section text-maroon">{{ o.id }}</p>
                 <p class="text-sm text-gray-600">{{ o.item }}</p>
               </div>
               <span
-                class="nav rounded-full px-3 py-1 text-xs"
+                class="nav shrink-0 rounded-full px-3 py-1 text-xs"
                 :class="o.status === 'Ready' ? 'bg-green-100 text-green-800' : o.status === 'New' ? 'bg-amber/40 text-maroon' : 'bg-red-100 text-red-700'"
               >
                 {{ o.status }}
