@@ -109,7 +109,7 @@ function orderNow() {
         </div>
 
         <!-- Center: round dish -->
-        <div class="order-first flex flex-col items-center gap-5 lg:order-none">
+        <div class="order-first flex flex-col items-center gap-5 lg:order-0">
           <div class="relative">
             <div class="absolute -inset-3 rounded-full bg-amber/40 blur-xl"></div>
             <div class="relative h-56 w-56 overflow-hidden rounded-full border-8 border-amber/80 bg-crimson shadow-2xl sm:h-64 sm:w-64 md:h-80 md:w-80">
