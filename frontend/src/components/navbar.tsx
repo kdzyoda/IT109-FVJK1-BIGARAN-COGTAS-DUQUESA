@@ -1,11 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { buttonVariants } from "@/components/ui/button";
 import { useCart } from "@/components/cart-provider";
+import { useAuth } from "@/components/auth-provider";
 
 export function Navbar() {
   const { count } = useCart();
+  const { user, signOut } = useAuth();
+  const router = useRouter();
 
   return (
     <header className="bg-primary text-primary-foreground">
@@ -13,7 +17,7 @@ export function Navbar() {
         <Link href="/" className="t-brand text-2xl text-secondary">
           PaddlerGo
         </Link>
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center gap-5">
           <Link href="/menu" className="t-nav">
             Menu
             {count > 0 && (
@@ -22,9 +26,30 @@ export function Navbar() {
               </span>
             )}
           </Link>
-          <Link href="/login" className={buttonVariants({ variant: "secondary" })}>
-            Sign in
-          </Link>
+
+          {user ? (
+            <>
+              <Link href={`/dashboard/${user.role}`} className="t-nav">
+                Dashboard
+              </Link>
+              <span className="t-desc hidden text-sm text-primary-foreground/70 sm:inline">
+                {user.name}
+              </span>
+              <button
+                className="t-nav text-secondary underline"
+                onClick={() => {
+                  signOut();
+                  router.push("/");
+                }}
+              >
+                Sign out
+              </button>
+            </>
+          ) : (
+            <Link href="/login" className={buttonVariants({ variant: "secondary" })}>
+              Sign in
+            </Link>
+          )}
         </nav>
       </div>
     </header>
