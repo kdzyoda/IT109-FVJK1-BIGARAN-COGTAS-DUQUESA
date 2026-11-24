@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/password-input";
 import { useAuth } from "@/components/auth-provider";
 import { ApiError } from "@/lib/api";
 import { USERNAME_HINT, USERNAME_RE } from "@/lib/validation";
@@ -59,13 +60,12 @@ export function LoginForm() {
 
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
-        <Input
+        <PasswordInput
           id="password"
-          type="password"
           value={password}
           maxLength={64}
           autoComplete="current-password"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={setPassword}
         />
         {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
       </div>

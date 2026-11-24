@@ -49,7 +49,7 @@ export function RoleApiTester() {
 
         <div className="flex flex-wrap gap-2">
           {roles.map((r) => (
-            <Button key={r} variant="outline" size="sm" disabled={busy} onClick={() => call(r)}>
+                       <Button key={r} variant="outline" size="sm" className="max-w-full truncate" disabled={busy} onClick={() => call(r)}>
               GET /api/{r}/dashboard
             </Button>
           ))}

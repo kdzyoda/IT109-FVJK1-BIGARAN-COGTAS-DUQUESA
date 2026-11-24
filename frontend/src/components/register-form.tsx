@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/components/auth-provider";
 import { ApiError } from "@/lib/api";
+import { PasswordInput } from "@/components/password-input";
 import {
   EMAIL_RE,
   PASSWORD_HINT,
@@ -91,14 +92,24 @@ export function RegisterForm() {
       {fields.map((f) => (
         <div key={f.key} className="space-y-2">
           <Label htmlFor={f.key}>{f.label}</Label>
-          <Input
-            id={f.key}
-            type={f.type}
-            value={form[f.key]}
-            maxLength={f.max}
-            autoComplete={f.auto}
-            onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
-          />
+                  {f.type === "password" ? (
+            <PasswordInput
+              id={f.key}
+              value={form[f.key]}
+              maxLength={f.max}
+              autoComplete={f.auto}
+              onChange={(v) => setForm({ ...form, [f.key]: v })}
+            />
+          ) : (
+            <Input
+              id={f.key}
+              type={f.type}
+              value={form[f.key]}
+              maxLength={f.max}
+              autoComplete={f.auto}
+              onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
+            />
+          )}
           {errors[f.key] && <p className="text-sm text-destructive">{errors[f.key]}</p>}
         </div>
       ))}
