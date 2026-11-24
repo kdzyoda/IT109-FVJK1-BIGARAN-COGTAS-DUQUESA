@@ -1,9 +1,14 @@
+import type { Address } from "@/lib/psgc";
+
 export const DELIVERY_FEE = 10; // runner service fee, ₱5-₱10 (confirm the exact amount with the team)
 
 export type Canteen = {
   id: number;
   name: string;
   note: string;
+  active: boolean;
+  logo?: string;
+  location?: Address;
 };
 
 export type MenuItem = {
@@ -13,12 +18,14 @@ export type MenuItem = {
   desc: string;
   price: number;
   available: boolean;
+  image?: string;
 };
 
+// Starting sample data. The Laravel API replaces this later.
 export const canteens: Canteen[] = [
-  { id: 1, name: "Main Canteen Grill", note: "Rice meals and grilled favorites" },
-  { id: 2, name: "CCIS Snack Hub", note: "Quick bites and drinks" },
-  { id: 3, name: "Library Cafe", note: "Coffee, pastries and light meals" },
+  { id: 1, name: "Main Canteen Grill", note: "Rice meals and grilled favorites", active: true },
+  { id: 2, name: "CCIS Snack Hub", note: "Quick bites and drinks", active: true },
+  { id: 3, name: "Library Cafe", note: "Coffee, pastries and light meals", active: true },
 ];
 
 export const menuItems: MenuItem[] = [

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Nunito_Sans, Playfair_Display } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/components/auth-provider";
+import { MenuProvider } from "@/components/menu-provider";
 import { OrdersProvider } from "@/components/orders-provider";
 import { CartProvider } from "@/components/cart-provider";
 import "./globals.css";
@@ -38,12 +39,14 @@ export default function RootLayout({
     <html lang="en" className={`${heading.variable} ${body.variable} ${brand.variable}`}>
       <body className="min-h-screen antialiased">
         <AuthProvider>
-          <OrdersProvider>
-            <CartProvider>
-              {children}
-              <Toaster richColors position="top-center" />
-            </CartProvider>
-          </OrdersProvider>
+          <MenuProvider>
+            <OrdersProvider>
+              <CartProvider>
+                {children}
+                <Toaster richColors position="top-center" />
+              </CartProvider>
+            </OrdersProvider>
+          </MenuProvider>
         </AuthProvider>
       </body>
     </html>

@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/navbar";
 import { RoleGuard } from "@/components/role-guard";
+import { RoleApiTester } from "@/components/role-api-tester";
 import { Role } from "@/components/auth-provider";
 
 export function DashboardShell({
@@ -23,6 +24,7 @@ export function DashboardShell({
             <p className="t-promo mt-1 text-primary/80">{subtitle}</p>
           </div>
           {children}
+          <RoleApiTester />
         </main>
       </RoleGuard>
     </div>

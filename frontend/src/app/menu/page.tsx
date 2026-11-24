@@ -1,17 +1,22 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 
 import { useState } from "react";
 import { Navbar } from "@/components/navbar";
 import { CartPanel } from "@/components/cart-panel";
 import { useCart } from "@/components/cart-provider";
+import { useMenu } from "@/components/menu-provider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { canteens, menuItems } from "@/lib/menu-data";
 
 export default function MenuPage() {
   const { add } = useCart();
-  const [canteenId, setCanteenId] = useState(canteens[0].id);
-  const items = menuItems.filter((m) => m.canteenId === canteenId);
+  const { canteens, items } = useMenu();
+  const [picked, setPicked] = useState<number | null>(null);
+
+  const active = canteens.filter((c) => c.active);
+  const current = active.find((c) => c.id === picked)?.id ?? active[0]?.id;
+  const shown = items.filter((m) => m.canteenId === current);
 
   return (
     <div className="min-h-screen">
@@ -22,12 +27,12 @@ export default function MenuPage() {
         <p className="t-promo mt-1 text-primary/80">Pick a canteen, then pick your food</p>
 
         <div className="mt-6 flex flex-wrap gap-2">
-          {canteens.map((c) => (
+          {active.map((c) => (
             <Button
               key={c.id}
-              variant={canteenId === c.id ? "default" : "outline"}
+              variant={current === c.id ? "default" : "outline"}
               className="rounded-full"
-              onClick={() => setCanteenId(c.id)}
+              onClick={() => setPicked(c.id)}
             >
               {c.name}
             </Button>
@@ -36,11 +41,14 @@ export default function MenuPage() {
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
           <section className="grid gap-5 sm:grid-cols-2">
-            {items.map((m) => (
+            {active.length === 0 && (
+              <p className="t-desc text-muted-foreground">No canteens are open right now.</p>
+            )}
+            {shown.map((m) => (
               <Card key={m.id}>
                 <CardContent className="space-y-1 pt-6">
-                  <div className="grid h-32 place-items-center rounded-lg bg-muted text-sm text-muted-foreground">
-                    Food photo
+                  <div className="grid h-32 place-items-center overflow-hidden rounded-lg bg-muted text-sm text-muted-foreground">
+                    {m.image ? <img src={m.image} alt={m.name} className="h-full w-full object-cover" /> : "Food photo"}
                   </div>
                   <h3 className="t-food pt-3 text-lg">{m.name}</h3>
                   <p className="t-desc text-sm text-muted-foreground">{m.desc}</p>

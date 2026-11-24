@@ -1,16 +1,19 @@
 "use client";
 
+import { AdminCanteens } from "@/components/admin-canteens";
 import { DashboardShell } from "@/components/dashboard-shell";
-import { Card, CardContent } from "@/components/ui/card";
+import { useMenu } from "@/components/menu-provider";
 import { useOrders } from "@/components/orders-provider";
-import { canteens } from "@/lib/menu-data";
+import { Card, CardContent } from "@/components/ui/card";
 
 function AdminContent() {
   const { orders } = useOrders();
+  const { canteens } = useMenu();
 
   const delivered = orders.filter((o) => o.status === "Delivered");
   const claimed = orders.filter((o) => o.runner);
-  const rate = claimed.length ? Math.round((delivered.filter((o) => o.runner).length / claimed.length) * 100) : 0;
+  const doneClaimed = claimed.filter((o) => o.status === "Delivered").length;
+  const rate = claimed.length ? Math.round((doneClaimed / claimed.length) * 100) : 0;
 
   const stats = [
     { label: "Total orders", value: orders.length },
@@ -37,6 +40,8 @@ function AdminContent() {
           </Card>
         ))}
       </section>
+
+      <AdminCanteens />
 
       <section className="space-y-4">
         <h2 className="t-section text-2xl">Vendor payouts (delivered orders)</h2>
@@ -101,7 +106,7 @@ function AdminContent() {
 
 export default function AdminDashboard() {
   return (
-    <DashboardShell role="admin" title="Admin dashboard" subtitle="Monitor deliveries and vendor payouts">
+    <DashboardShell role="admin" title="Admin dashboard" subtitle="Onboard canteens, monitor deliveries and vendor payouts">
       <AdminContent />
     </DashboardShell>
   );

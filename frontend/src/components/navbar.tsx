@@ -35,6 +35,9 @@ export function Navbar() {
               <Link href="/profile" className="t-nav">
                 Profile
               </Link>
+              <span className="t-desc hidden text-sm text-primary-foreground/70 sm:inline">
+                {user.username} ({user.role})
+              </span>
               <button
                 className="t-nav text-secondary underline"
                 onClick={() => {
@@ -46,9 +49,14 @@ export function Navbar() {
               </button>
             </>
           ) : (
-            <Link href="/login" className={buttonVariants({ variant: "secondary" })}>
-              Sign in
-            </Link>
+            <>
+              <Link href="/register" className="t-nav">
+                Register
+              </Link>
+              <Link href="/login" className={buttonVariants({ variant: "secondary" })}>
+                Sign in
+              </Link>
+            </>
           )}
         </nav>
       </div>
