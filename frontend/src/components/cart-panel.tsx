@@ -74,7 +74,7 @@ export function CartPanel() {
       if (!res.ok) throw new Error("Could not start checkout.");
       const data = await res.json();
       // External redirect to the PayMongo checkout page.
-      // eslint-disable-next-line
+
       window.location.assign(data.checkout_url);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not start checkout.");
