@@ -1,0 +1,39 @@
+:root {
+  --background: #fdf0e0;
+  --foreground: #2a1010;
+  --card: #ffffff;
+  --card-foreground: #2a1010;
+  --popover: #ffffff;
+  --popover-foreground: #2a1010;
+  --primary: #7a1414;
+  --primary-foreground: #ffffff;
+  --secondary: #f9a825;
+  --secondary-foreground: #4a0d0d;
+  --muted: #f6e3cc;
+  --muted-foreground: #7a5a4a;
+  --accent: #fbe3bf;
+  --accent-foreground: #4a0d0d;
+  --border: #e3c9a8;
+  --input: #e3c9a8;
+  --ring: #f9a825;
+  --radius: 0.75rem;
+}
+
+body {
+  font-family: var(--font-body-ui), system-ui, sans-serif;
+}
+
+button {
+  font-family: var(--font-body-ui), system-ui, sans-serif;
+  font-weight: 700;
+}
+
+/* Typography usage guide */
+.t-brand   { font-family: var(--font-brand-ui), serif; font-weight: 700; }
+.t-hero    { font-family: var(--font-heading-ui), sans-serif; font-weight: 800; }
+.t-section { font-family: var(--font-heading-ui), sans-serif; font-weight: 700; }
+.t-nav     { font-family: var(--font-body-ui), sans-serif; font-weight: 600; }
+.t-food    { font-family: var(--font-heading-ui), sans-serif; font-weight: 700; }
+.t-desc    { font-family: var(--font-body-ui), sans-serif; font-weight: 400; }
+.t-price   { font-family: var(--font-heading-ui), sans-serif; font-weight: 800; }
+.t-promo   { font-family: var(--font-brand-ui), serif; font-style: italic; }
