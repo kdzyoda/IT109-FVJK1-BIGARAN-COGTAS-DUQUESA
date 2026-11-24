@@ -32,9 +32,9 @@ export function Navbar() {
               <Link href={`/dashboard/${user.role}`} className="t-nav">
                 Dashboard
               </Link>
-              <span className="t-desc hidden text-sm text-primary-foreground/70 sm:inline">
-                {user.name}
-              </span>
+              <Link href="/profile" className="t-nav">
+                Profile
+              </Link>
               <button
                 className="t-nav text-secondary underline"
                 onClick={() => {
