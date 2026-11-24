@@ -6,6 +6,7 @@ import { Order, OrderStatus, sampleOrders } from "@/lib/orders-data";
 
 type OrdersContextValue = {
   orders: Order[];
+  addOrder: (order: Order) => void;
   setStatus: (id: string, status: OrderStatus, runner?: string) => void;
 };
 
@@ -13,6 +14,10 @@ const OrdersContext = createContext<OrdersContextValue | null>(null);
 
 export function OrdersProvider({ children }: { children: React.ReactNode }) {
   const [orders, setOrders] = useState<Order[]>(sampleOrders);
+
+  const addOrder = useCallback((order: Order) => {
+    setOrders((prev) => [order, ...prev]);
+  }, []);
 
   const setStatus = useCallback((id: string, status: OrderStatus, runner?: string) => {
     setOrders((prev) =>
@@ -22,7 +27,9 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <OrdersContext.Provider value={{ orders, setStatus }}>{children}</OrdersContext.Provider>
+    <OrdersContext.Provider value={{ orders, addOrder, setStatus }}>
+      {children}
+    </OrdersContext.Provider>
   );
 }
 
