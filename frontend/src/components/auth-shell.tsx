@@ -19,7 +19,10 @@ export function AuthShell({
     <main className="grid min-h-screen place-items-center bg-primary p-3 sm:p-6">
       <div className="grid w-full max-w-4xl overflow-hidden rounded-3xl bg-card shadow-2xl md:grid-cols-2">
         {/* Brand side */}
-        <div className="relative flex flex-col justify-between gap-6 overflow-hidden bg-black/25 p-6 text-primary-foreground sm:p-10">
+      <div
+  className="relative flex flex-col justify-between gap-6 overflow-hidden p-6 text-primary-foreground sm:p-10"
+  style={{ background: "linear-gradient(135deg, #5a0d0d 0%, #7a1414 100%)" }}
+>
           <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-secondary/40 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-secondary/20 blur-3xl" />
 
