@@ -1,6 +1,5 @@
 "use client";
 
-
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { USE_MOCK, apiRequest } from "@/lib/api";
 import { mockLogin, mockRegister } from "@/lib/mock-auth";
@@ -14,15 +13,17 @@ export type User = {
   canteenId?: number;
 };
 
+// Laravel calls the runner role "deliveryperson". The app says "runner".
 type ApiUser = {
   id?: number;
   name?: string;
   username: string;
-  role: Role;
+  role: Role | "deliveryperson";
   canteen_id?: number;
 };
 type LoginResponse = { message?: string; user: ApiUser; token?: string };
 type RegisterInput = {
+  name: string;
   username: string;
   email: string;
   password: string;
@@ -47,7 +48,7 @@ function toUser(u: ApiUser): User {
     id: u.id,
     username: u.username,
     name: u.name ?? u.username,
-    role: u.role,
+    role: u.role === "deliveryperson" ? "runner" : u.role,
     canteenId: u.canteen_id,
   };
 }
@@ -117,7 +118,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         ? await mockLogin(username, password)
         : await apiRequest<LoginResponse>("/api/login", {
             method: "POST",
-            body: { username, password },
+            body: { login: username, password },
           });
       const u = toUser(data.user);
       saveSession(u, data.token ?? null);

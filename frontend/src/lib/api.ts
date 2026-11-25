@@ -3,7 +3,7 @@ export const API_BASE_URL =
 
 // TEMP: true = fake API so the UI works without Laravel.
 // Set to false when the Laravel API is ready.
-export const USE_MOCK = true;
+export const USE_MOCK = false;
 
 export class ApiError extends Error {
   status: number;

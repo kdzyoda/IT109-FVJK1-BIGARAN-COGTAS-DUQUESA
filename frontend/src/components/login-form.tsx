@@ -51,7 +51,7 @@ export function LoginForm() {
         <Input
           id="username"
           value={username}
-          maxLength={20}
+          maxLength={30}
           autoComplete="username"
           onChange={(e) => setUsername(e.target.value)}
         />

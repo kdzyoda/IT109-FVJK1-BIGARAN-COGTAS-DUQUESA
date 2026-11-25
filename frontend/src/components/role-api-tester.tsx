@@ -7,6 +7,8 @@ import { Role, useAuth } from "@/components/auth-provider";
 import { ApiError, USE_MOCK, apiRequest } from "@/lib/api";
 
 const roles: Role[] = ["customer", "vendor", "runner", "admin"];
+// The frontend says "runner", the Laravel role is "deliveryperson".
+const endpointRole = (r: Role) => (r === "runner" ? "deliveryperson" : r);
 type Result = { path: string; status: number; message: string } | null;
 
 export function RoleApiTester() {
@@ -15,7 +17,7 @@ export function RoleApiTester() {
   const [busy, setBusy] = useState(false);
 
   async function call(role: Role) {
-    const path = `/api/${role}/dashboard`;
+    const path = `/api/test/${endpointRole(role)}`;
     setBusy(true);
     try {
       if (USE_MOCK) {
@@ -49,8 +51,8 @@ export function RoleApiTester() {
 
         <div className="flex flex-wrap gap-2">
           {roles.map((r) => (
-                       <Button key={r} variant="outline" size="sm" className="max-w-full truncate" disabled={busy} onClick={() => call(r)}>
-              GET /api/{r}/dashboard
+            <Button key={r} variant="outline" size="sm" disabled={busy} onClick={() => call(r)}>
+              GET /api/test/{endpointRole(r)}
             </Button>
           ))}
         </div>

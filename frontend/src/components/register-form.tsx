@@ -7,11 +7,13 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/password-input";
 import { useAuth } from "@/components/auth-provider";
 import { ApiError } from "@/lib/api";
-import { PasswordInput } from "@/components/password-input";
 import {
   EMAIL_RE,
+  NAME_HINT,
+  NAME_RE,
   PASSWORD_HINT,
   PASSWORD_RE,
   USERNAME_HINT,
@@ -19,6 +21,7 @@ import {
 } from "@/lib/validation";
 
 type Form = {
+  name: string;
   username: string;
   email: string;
   password: string;
@@ -27,7 +30,8 @@ type Form = {
 type Errors = Partial<Record<keyof Form, string>>;
 
 const fields: { key: keyof Form; label: string; type: string; max: number; auto: string }[] = [
-  { key: "username", label: "Username", type: "text", max: 20, auto: "username" },
+  { key: "name", label: "Full name", type: "text", max: 60, auto: "name" },
+  { key: "username", label: "Username", type: "text", max: 30, auto: "username" },
   { key: "email", label: "Email", type: "email", max: 100, auto: "email" },
   { key: "password", label: "Password", type: "password", max: 64, auto: "new-password" },
   { key: "password_confirmation", label: "Confirm password", type: "password", max: 64, auto: "new-password" },
@@ -37,6 +41,7 @@ export function RegisterForm() {
   const router = useRouter();
   const { register } = useAuth();
   const [form, setForm] = useState<Form>({
+    name: "",
     username: "",
     email: "",
     password: "",
@@ -47,6 +52,7 @@ export function RegisterForm() {
 
   function validate(): Errors {
     const e: Errors = {};
+    if (!NAME_RE.test(form.name.trim())) e.name = NAME_HINT;
     if (!USERNAME_RE.test(form.username)) e.username = USERNAME_HINT;
     if (!EMAIL_RE.test(form.email)) e.email = "Enter a valid email address.";
     if (!PASSWORD_RE.test(form.password)) e.password = PASSWORD_HINT;
@@ -67,7 +73,7 @@ export function RegisterForm() {
 
     setLoading(true);
     try {
-      await register(form);
+      await register({ ...form, name: form.name.trim() });
       toast.success("Account created! Please sign in.");
       router.push("/login");
     } catch (err) {
@@ -92,7 +98,7 @@ export function RegisterForm() {
       {fields.map((f) => (
         <div key={f.key} className="space-y-2">
           <Label htmlFor={f.key}>{f.label}</Label>
-                  {f.type === "password" ? (
+          {f.type === "password" ? (
             <PasswordInput
               id={f.key}
               value={form[f.key]}
