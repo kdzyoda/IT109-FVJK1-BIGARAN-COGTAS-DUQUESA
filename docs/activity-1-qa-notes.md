@@ -18,7 +18,7 @@
 | Valid registration | Pass | API returned `201`, assigned the `customer` role, and returned a token. |
 | Duplicate username or email | Pass | API returned `422` with field-specific validation errors. |
 | Weak password or mismatched confirmation | Pass | API returned `422` with a password validation error. |
-| Login with email | Not verified | API test was rate-limited (`429`). The current frontend login form also validates this field as a username, although Laravel accepts either username or email. |
+| Login with email | Pending retest | Cogtas added username-or-email support to the frontend in commit `d90e983`. The earlier API test hit the login throttle (`429`), so successful email sign-in has not yet been verified. |
 
 ## Excluded from this demo
 
@@ -27,8 +27,7 @@
 
 ## Follow-up
 
-- Coordinate with Cogtas on whether the login form should accept email as well as username, matching Laravel's `/api/login` contract.
-- Retry the email-login API check after the login throttle window expires.
+- Retry email sign-in through the updated frontend after the login throttle window expires; record `Pass` only after a successful sign-in.
 - The frontend reads `NEXT_PUBLIC_API_BASE_URL` and falls back to `http://127.0.0.1:8000`; set the environment variable to the team's confirmed Laravel base URL when running the integration.
 
 ## QA summary
