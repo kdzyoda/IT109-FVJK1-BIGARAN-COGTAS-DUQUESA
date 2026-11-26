@@ -18,7 +18,7 @@
 | Valid registration | Pass | API returned `201`, assigned the `customer` role, and returned a token. |
 | Duplicate username or email | Pass | API returned `422` with field-specific validation errors. |
 | Weak password or mismatched confirmation | Pass | API returned `422` with a password validation error. |
-| Login with email | Pending retest | Cogtas added username-or-email support to the frontend in commit `d90e983`. The earlier API test hit the login throttle (`429`), so successful email sign-in has not yet been verified. |
+| Login with email | Pass | Signed in through the updated frontend using the seeded customer's email. The Laravel API accepted the email and returned the customer account. |
 
 ## Excluded from this demo
 
@@ -27,9 +27,8 @@
 
 ## Follow-up
 
-- Retry email sign-in through the updated frontend after the login throttle window expires; record `Pass` only after a successful sign-in.
 - The frontend reads `NEXT_PUBLIC_API_BASE_URL` and falls back to `http://127.0.0.1:8000`; set the environment variable to the team's confirmed Laravel base URL when running the integration.
 
 ## QA summary
 
-The Activity 1 authentication and role-access checks passed in the local environment. Invalid-password handling showed an error as expected. These notes record a local development check, not a production test.
+The Activity 1 authentication and role-access checks passed in the local environment, including email login through the updated frontend. Invalid-password handling showed an error as expected. These notes record a local development check, not a production test.
