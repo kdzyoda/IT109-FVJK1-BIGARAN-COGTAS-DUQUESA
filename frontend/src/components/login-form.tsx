@@ -10,14 +10,16 @@ import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/password-input";
 import { useAuth } from "@/components/auth-provider";
 import { ApiError } from "@/lib/api";
-import { USERNAME_HINT, USERNAME_RE } from "@/lib/validation";
+import { EMAIL_RE, USERNAME_RE } from "@/lib/validation";
 
-type Errors = { username?: string; password?: string };
+type Errors = { login?: string; password?: string };
+
+const LOGIN_HINT = "Enter a valid username (5-30 letters, numbers or underscores) or email address.";
 
 export function LoginForm() {
   const router = useRouter();
   const { login } = useAuth();
-  const [username, setUsername] = useState("");
+  const [loginValue, setLoginValue] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Errors>({});
   const [formError, setFormError] = useState("");
@@ -25,8 +27,9 @@ export function LoginForm() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    const value = loginValue.trim();
     const found: Errors = {};
-    if (!USERNAME_RE.test(username)) found.username = USERNAME_HINT;
+    if (!USERNAME_RE.test(value) && !EMAIL_RE.test(value)) found.login = LOGIN_HINT;
     if (password === "") found.password = "Password is required.";
     setErrors(found);
     setFormError("");
@@ -34,7 +37,7 @@ export function LoginForm() {
 
     setLoading(true);
     try {
-      const user = await login(username, password);
+      const user = await login(value, password);
       toast.success(`Welcome, ${user.name}!`);
       router.push(`/dashboard/${user.role}`);
     } catch (err) {
@@ -47,15 +50,15 @@ export function LoginForm() {
   return (
     <form onSubmit={submit} className="space-y-4" noValidate>
       <div className="space-y-2">
-        <Label htmlFor="username">Username</Label>
+        <Label htmlFor="login">Username or email</Label>
         <Input
-          id="username"
-          value={username}
-          maxLength={30}
+          id="login"
+          value={loginValue}
+          maxLength={100}
           autoComplete="username"
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => setLoginValue(e.target.value)}
         />
-        {errors.username && <p className="text-sm text-destructive">{errors.username}</p>}
+        {errors.login && <p className="text-sm text-destructive">{errors.login}</p>}
       </div>
 
       <div className="space-y-2">

@@ -20,7 +20,7 @@ export default function LoginPage() {
               PaddlerGo
             </Link>
             <h1 className="t-hero text-2xl">Welcome back</h1>
-            <p className="t-promo text-primary/80">Sign in to continue</p>
+           <p className="t-promo text-primary/80">Sign in with your username or email</p>
           </div>
           <LoginForm />
         </CardContent>
