@@ -10,17 +10,19 @@ import { Label } from "@/components/ui/label";
 import { CaptchaValue, MathCaptcha } from "@/components/math-captcha";
 import { useAuth } from "@/components/auth-provider";
 import { useCart } from "@/components/cart-provider";
-import { API_BASE_URL, USE_MOCK } from "@/lib/api";
-import { newOrderId, savePending } from "@/lib/checkout";
+import { useOrders } from "@/components/orders-provider";
 import { DELIVERY_FEE } from "@/lib/menu-data";
 
 // Building / room: 3-60 letters, numbers, spaces and . , # ' -
 const DROP_OFF_RE = /^[A-Za-z0-9 .,#'-]{3,60}$/;
 
+const newOrderId = () => `PG-${Date.now().toString().slice(-6)}`;
+
 export function CartPanel() {
   const router = useRouter();
   const { user } = useAuth();
   const { lines, count, subtotal, increase, decrease, clear } = useCart();
+  const { addOrder } = useOrders();
   const [dropOff, setDropOff] = useState("");
   const [dropOffError, setDropOffError] = useState("");
   const [captcha, setCaptcha] = useState<CaptchaValue>({ token: "", answer: "", ok: false });
@@ -29,7 +31,8 @@ export function CartPanel() {
 
   const total = subtotal + (count > 0 ? DELIVERY_FEE : 0);
 
-  async function placeOrder() {
+  function placeOrder() {
+    if (!user) return;
     if (!DROP_OFF_RE.test(dropOff.trim())) {
       setDropOffError("Enter your building and room (3-60 letters, numbers or . , # ' -).");
       return;
@@ -39,48 +42,26 @@ export function CartPanel() {
       toast.error("Please answer the CAPTCHA correctly.");
       return;
     }
+
     setPlacing(true);
-
-    if (USE_MOCK) {
-      savePending({
-        id: newOrderId(),
-        canteenId: lines[0].canteenId,
-        items: lines.map((l) => `${l.qty}× ${l.name}`).join(", "),
-        subtotal,
-        runnerFee: DELIVERY_FEE,
-        dropOff: dropOff.trim(),
-      });
-      router.push("/checkout/mock-pay");
-      return;
-    }
-
-    // REAL API (contract to confirm with Duquesa). The backend recalculates the
-    // total from its own prices, verifies the CAPTCHA, creates the PayMongo
-    // checkout session and returns its URL.
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/orders`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          canteen_id: lines[0].canteenId,
-          items: lines.map((l) => ({ menu_item_id: l.id, quantity: l.qty })),
-          drop_off: dropOff.trim(),
-          captcha_token: captcha.token,
-          captcha_answer: captcha.answer,
-        }),
-      });
-      if (res.status === 429) throw new Error("Too many attempts. Please wait a moment.");
-      if (!res.ok) throw new Error("Could not start checkout.");
-      const data = await res.json();
-      // External redirect to the PayMongo checkout page.
-
-      window.location.assign(data.checkout_url);
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Could not start checkout.");
-      setPlacing(false);
-      setResetKey((k) => k + 1);
-    }
+    const id = newOrderId();
+    // Orders are still kept in the app for now. No payment step in this activity.
+    addOrder({
+      id,
+      customer: user.name,
+      canteenId: lines[0].canteenId,
+      items: lines.map((l) => `${l.qty}× ${l.name}`).join(", "),
+      subtotal,
+      runnerFee: DELIVERY_FEE,
+      dropOff: dropOff.trim(),
+      status: "Paid",
+    });
+    clear();
+    setDropOff("");
+    setResetKey((k) => k + 1);
+    setPlacing(false);
+    toast.success(`Order ${id} placed!`);
+    router.push("/dashboard/customer");
   }
 
   return (
@@ -156,7 +137,7 @@ export function CartPanel() {
               </div>
 
               <Button className="mt-4 w-full" variant="secondary" disabled={placing} onClick={placeOrder}>
-                {placing ? "Preparing checkout..." : "Pay with PayMongo"}
+                {placing ? "Placing order..." : "Place order"}
               </Button>
             </>
           )}
