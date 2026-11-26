@@ -15,11 +15,21 @@
 | Sign out | Pass | Sign-out succeeds. |
 | Customer dashboard access | Pass | Customer account reaches the customer dashboard. |
 | Role-specific dashboard access | Pass | Seeded roles reach their expected dashboards; cross-role access checks worked as expected. |
+| Valid registration | Pass | API returned `201`, assigned the `customer` role, and returned a token. |
+| Duplicate username or email | Pass | API returned `422` with field-specific validation errors. |
+| Weak password or mismatched confirmation | Pass | API returned `422` with a password validation error. |
+| Login with email | Not verified | API test was rate-limited (`429`). The current frontend login form also validates this field as a username, although Laravel accepts either username or email. |
 
 ## Excluded from this demo
 
 - Checkout and payment were not tested because checkout is excluded from Activity 1.
 - Image upload was not tested.
+
+## Follow-up
+
+- Coordinate with Cogtas on whether the login form should accept email as well as username, matching Laravel's `/api/login` contract.
+- Retry the email-login API check after the login throttle window expires.
+- The frontend reads `NEXT_PUBLIC_API_BASE_URL` and falls back to `http://127.0.0.1:8000`; set the environment variable to the team's confirmed Laravel base URL when running the integration.
 
 ## QA summary
 
