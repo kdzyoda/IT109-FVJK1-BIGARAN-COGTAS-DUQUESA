@@ -1,20 +1,40 @@
-# Secrets
-.env
-backend/.env
-frontend/.env
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# Dependencies
-node_modules/
-backend/vendor/
+# testing
+/coverage
 
-# Build / cache
-.nuxt/
-.output/
-dist/
-backend/storage/*.key
+# next.js
+/.next/
+/out/
 
-# OS / editor
+# production
+/build
+
+# misc
 .DS_Store
-Thumbs.db
-.vscode/
-.idea/
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (real secrets stay ignored, the example is committed)
+.env*
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
